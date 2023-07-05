@@ -1,7 +1,6 @@
 package ru.netology;
 
 import com.codeborne.selenide.Condition;
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +10,8 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.*;
 
 class AuthTest {
+
+    DataGenerator info = new DataGenerator();
 
     @BeforeEach
     void setUp() {
@@ -42,9 +43,8 @@ class AuthTest {
     @DisplayName("Should get error message if login with not registered user")
     void shouldGetErrorIfNotRegisteredUser() {
         DataName registration = DataGenerator.getNewUser("active");
-        Faker faker = new Faker();
-        $("[data-test-id=login] input").setValue(faker.name().firstName());
-        $("[data-test-id=password] input").setValue(faker.internet().password());
+        $("[data-test-id=login] input").setValue(info.randomName("en"));
+        $("[data-test-id=password] input").setValue(info.randomPassword("en"));
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldHave(Condition.exactText("Ошибка! " + "Неверно указан логин или пароль"));
     }
@@ -53,8 +53,7 @@ class AuthTest {
     @DisplayName("Should get error message if login with wrong login")
     void shouldGetErrorIfWrongLogin() {
         DataName registration = DataGenerator.getNewUser("active");
-        Faker faker = new Faker();
-        $("[data-test-id=login] input").setValue(faker.name().firstName());
+        $("[data-test-id=login] input").setValue(info.randomName("en"));
         $("[data-test-id=password] input").setValue(registration.getPassword());
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldHave(Condition.exactText("Ошибка! " + "Неверно указан логин или пароль"));
@@ -64,9 +63,8 @@ class AuthTest {
     @DisplayName("Should get error message if login with wrong password")
     void shouldGetErrorIfWrongPassword() {
         DataName registration = DataGenerator.getNewUser("active");
-        Faker faker = new Faker();
         $("[data-test-id=login] input").setValue(registration.getLogin());
-        $("[data-test-id=password] input").setValue(faker.internet().password());
+        $("[data-test-id=password] input").setValue(info.randomPassword("en"));
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldHave(Condition.exactText("Ошибка! " + "Неверно указан логин или пароль"));
 

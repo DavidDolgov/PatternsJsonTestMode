@@ -34,4 +34,15 @@ public class DataGenerator {
                 .statusCode(200);
         return registration;
     }
+
+    public String randomName(String locale) {
+        Faker faker = new Faker(new Locale(locale));
+        return faker.name().firstName();
+    }
+
+    public String randomPassword(String locale) {
+        Faker faker = new Faker(new Locale(locale));
+        return faker.internet().password();
+    }
+
 }
