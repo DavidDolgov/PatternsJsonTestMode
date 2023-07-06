@@ -11,7 +11,8 @@ import static com.codeborne.selenide.Selenide.*;
 
 class AuthTest {
 
-    DataGenerator info = new DataGenerator();
+    String randomName = DataGenerator.randomName("en");
+    String randomPassword = DataGenerator.randomPassword("en");
 
     @BeforeEach
     void setUp() {
@@ -43,8 +44,8 @@ class AuthTest {
     @DisplayName("Should get error message if login with not registered user")
     void shouldGetErrorIfNotRegisteredUser() {
         DataName registration = DataGenerator.getNewUser("active");
-        $("[data-test-id=login] input").setValue(info.randomName("en"));
-        $("[data-test-id=password] input").setValue(info.randomPassword("en"));
+        $("[data-test-id=login] input").setValue(randomName);
+        $("[data-test-id=password] input").setValue(randomPassword);
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldHave(Condition.exactText("Ошибка! " + "Неверно указан логин или пароль"));
     }
@@ -53,7 +54,7 @@ class AuthTest {
     @DisplayName("Should get error message if login with wrong login")
     void shouldGetErrorIfWrongLogin() {
         DataName registration = DataGenerator.getNewUser("active");
-        $("[data-test-id=login] input").setValue(info.randomName("en"));
+        $("[data-test-id=login] input").setValue(randomName);
         $("[data-test-id=password] input").setValue(registration.getPassword());
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldHave(Condition.exactText("Ошибка! " + "Неверно указан логин или пароль"));
@@ -64,7 +65,7 @@ class AuthTest {
     void shouldGetErrorIfWrongPassword() {
         DataName registration = DataGenerator.getNewUser("active");
         $("[data-test-id=login] input").setValue(registration.getLogin());
-        $("[data-test-id=password] input").setValue(info.randomPassword("en"));
+        $("[data-test-id=password] input").setValue(randomPassword);
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldHave(Condition.exactText("Ошибка! " + "Неверно указан логин или пароль"));
 

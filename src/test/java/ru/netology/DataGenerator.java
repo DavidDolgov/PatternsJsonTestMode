@@ -5,12 +5,14 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.filter.log.LogDetail;
+import lombok.experimental.UtilityClass;
 
 
 import java.util.Locale;
 
 import static io.restassured.RestAssured.given;
 
+@UtilityClass
 public class DataGenerator {
 
     private static RequestSpecification requestSpec = new RequestSpecBuilder()
